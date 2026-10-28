@@ -18,7 +18,7 @@ int velActualIzq = 0;
 int velActualDer = 0;
 
 // Máximo cambio de velocidad por ciclo. Menor = más suave, más lento en responder.
-const int PASO_RAMPA = 8;
+const int PASO_RAMPA = 1;
 
 int suavizar(int actual, int objetivo) {
   if (objetivo > actual) {
