@@ -1,4 +1,8 @@
-orDer(M2);              // Motor derecho
+#include <MeMCore.h>
+
+MeLineFollower sensorLinea(PORT_1);  // Seguidor de línea en el puerto 1
+MeDCMotor motorIzq(M1);              // Motor izquierdo
+MeDCMotor motorDer(M2);              // Motor derecho
 
 const int VEL_RAPIDA = 80;  // Rueda externa en el giro
 const int VEL_LENTA  = 0;   // Rueda interna en el giro
