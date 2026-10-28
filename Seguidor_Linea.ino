@@ -7,10 +7,36 @@ MeDCMotor motorDer(M2);              // Motor derecho
 const int VEL_RAPIDA = 80;  // Rueda externa en el giro
 const int VEL_LENTA  = 0;   // Rueda interna en el giro
 
-// El motor M1 está montado al revés, por eso va en negativo para avanzar
+/* El motor M1 está montado al revés, por eso va en negativo para avanzar
 void mover(int velIzq, int velDer) {
   motorIzq.run(-velIzq);
   motorDer.run(velDer);
+}
+*/
+// Velocidad actual real de cada motor (persiste entre llamadas)
+int velActualIzq = 0;
+int velActualDer = 0;
+
+// Máximo cambio de velocidad por ciclo. Menor = más suave, más lento en responder.
+const int PASO_RAMPA = 8;
+
+int suavizar(int actual, int objetivo) {
+  if (objetivo > actual) {
+    actual += PASO_RAMPA;
+    if (actual > objetivo) actual = objetivo;
+  } else if (objetivo < actual) {
+    actual -= PASO_RAMPA;
+    if (actual < objetivo) actual = objetivo;
+  }
+  return actual;
+}
+
+void mover(int velIzq, int velDer) {
+  velActualIzq = suavizar(velActualIzq, velIzq);
+  velActualDer = suavizar(velActualDer, velDer);
+
+  motorIzq.run(-velActualIzq);
+  motorDer.run(velActualDer);
 }
 
 void setup() {
